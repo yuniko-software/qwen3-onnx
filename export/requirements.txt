@@ -1,0 +1,4 @@
+requests
+numpy
+--pre onnxruntime-genai
+olive-ai

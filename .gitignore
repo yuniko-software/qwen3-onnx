@@ -399,3 +399,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# ONNX Models
+export/models/
+
+# Olive Cache
+.olive-cache/
