@@ -401,7 +401,10 @@ FodyWeavers.xsd
 *.sln.iml
 
 # ONNX Models
-export/models/
+models/
 
 # Olive Cache
 .olive-cache/
+
+# C# scripts
+csharp/

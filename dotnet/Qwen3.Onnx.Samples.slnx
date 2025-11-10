@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Qwen3.Onnx.Embedding/Qwen3.Onnx.Embedding.csproj" />
+  <Project Path="Qwen3.Onnx.Llm/Qwen3.Onnx.Llm.csproj" />
+  <Project Path="Qwen3.Onnx.Utils/Qwen3.Onnx.Utils.csproj" />
+</Solution>
