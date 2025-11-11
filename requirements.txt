@@ -2,3 +2,4 @@ requests
 numpy
 --pre onnxruntime-genai
 olive-ai
+optimum[onnxruntime]

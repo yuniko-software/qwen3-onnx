@@ -109,7 +109,7 @@ export_llm() {
     echo ""
 }
 
-# Export embedding model using Olive
+# Export embedding model using Optimum
 export_embedding() {
     local model_name=$1
     local output_path=$2
@@ -117,23 +117,22 @@ export_embedding() {
     echo "=========================================="
     echo "Exporting Embedding model"
     echo "  Model: $model_name"
-    echo "  Output: $output_path"
-    echo "  Device: $DEVICE"
-    echo "  Provider: $PROVIDER"
-    echo "  Precision: $PRECISION"
+    echo "  Output: $output_path/model"
+    echo "  Using: optimum-cli (encoder-only model)"
     echo "=========================================="
     echo ""
 
-    olive auto-opt \
-        --model_name_or_path "$model_name" \
-        --output_path "$output_path" \
-        --device "$DEVICE" \
-        --provider "$PROVIDER" \
-        --precision "$PRECISION" \
-        --log_level 1
+    # Create output directory if it doesn't exist
+    mkdir -p "$output_path/model"
+
+    # Export using optimum-cli for encoder-only models
+    optimum-cli export onnx \
+        --model "$model_name" \
+        --task feature-extraction \
+        "$output_path/model"
 
     echo ""
-    echo "Embedding model exported successfully to $output_path"
+    echo "Embedding model exported successfully to $output_path/model"
     echo ""
 }
 
