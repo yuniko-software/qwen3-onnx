@@ -408,3 +408,6 @@ models/
 
 # C# scripts
 csharp/
+
+# Test data
+dotnet/Qwen3.Onnx.Embedding.Tests/TestData/
