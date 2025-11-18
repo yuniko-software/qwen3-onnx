@@ -7,7 +7,7 @@ var modelPath = RepositoryPaths.GetEmbeddingModelPath();
 const string tokenizerModel = "Qwen/Qwen3-Embedding-0.6B";
 
 Console.WriteLine("Loading tokenizer...");
-var tokenizer = await Qwen3Tokenizer.FromHuggingFaceAsync(tokenizerModel);
+var tokenizer = Qwen3Tokenizer.FromHuggingFace(tokenizerModel, isForEmbeddingModel: true);
 Console.WriteLine("Tokenizer loaded");
 
 Console.WriteLine("Loading embedding model...");
@@ -35,11 +35,10 @@ foreach (var text in testTexts)
 
 static float[] GetEmbedding(InferenceSession session, Qwen3Tokenizer tokenizer, string text)
 {
-    var tokens = tokenizer.Encode(text).ToArray();
-    var attentionMask = Enumerable.Repeat(1L, tokens.Length).ToArray();
+    var onnxInputs = tokenizer.PrepareForOnnx(text);
 
-    var inputIdsTensor = new DenseTensor<long>(tokens.Select(t => (long)t).ToArray(), [1, tokens.Length]);
-    var attentionMaskTensor = new DenseTensor<long>(attentionMask, [1, attentionMask.Length]);
+    var inputIdsTensor = new DenseTensor<long>(onnxInputs.InputIds, [1, onnxInputs.SequenceLength]);
+    var attentionMaskTensor = new DenseTensor<long>(onnxInputs.AttentionMask, [1, onnxInputs.SequenceLength]);
 
     var inputs = new List<NamedOnnxValue>
     {

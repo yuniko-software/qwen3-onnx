@@ -12,7 +12,7 @@ public static class RepositoryPaths
         return Path.Combine(FindRepositoryRoot(), "models", "qwen3-embedding", "model", "model.onnx");
     }
 
-    private static string FindRepositoryRoot()
+    public static string FindRepositoryRoot()
     {
         var currentDir = new DirectoryInfo(Directory.GetCurrentDirectory());
 
