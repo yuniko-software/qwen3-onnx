@@ -99,7 +99,9 @@ public class PythonComparisonTests : IDisposable
     private static double CalculateCosineSimilarity(float[] vectorA, float[] vectorB)
     {
         if (vectorA.Length != vectorB.Length)
-            throw new ArgumentException("Vectors must be of the same length");
+        {
+            throw new InvalidOperationException("Vectors must be of the same length");
+        }
 
         double dotProduct = 0;
         double normA = 0;

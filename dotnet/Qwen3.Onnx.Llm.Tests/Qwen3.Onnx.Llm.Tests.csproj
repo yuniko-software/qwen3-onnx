@@ -10,12 +10,11 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="Meziantou.Analyzer" />
-    <PackageReference Include="Microsoft.ML.OnnxRuntime" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntimeGenAI" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Roslynator.Analyzers" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="Yuniko.Software.Qwen3Tokenizer" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,10 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Qwen3.Onnx.Utils\Qwen3.Onnx.Utils.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="TestData\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

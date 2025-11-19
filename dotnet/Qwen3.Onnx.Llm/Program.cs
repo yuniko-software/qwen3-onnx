@@ -23,7 +23,7 @@ while (true)
         continue;
     }
 
-    if (text == "quit()")
+    if (string.Equals(text, "quit()", StringComparison.Ordinal))
     {
         break;
     }
