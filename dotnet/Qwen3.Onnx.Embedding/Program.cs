@@ -1,7 +1,7 @@
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
-using Yuniko.Software.Qwen3Tokenizer;
 using Qwen3.Onnx.Utils;
+using Yuniko.Software.Qwen3Tokenizer;
 
 var modelPath = RepositoryPaths.GetEmbeddingModelPath();
 const string tokenizerModel = "Qwen/Qwen3-Embedding-0.6B";

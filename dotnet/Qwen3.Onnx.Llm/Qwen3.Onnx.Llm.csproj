@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ML.OnnxRuntimeGenAI" Version="0.11.1" />
+    <PackageReference Include="Meziantou.Analyzer" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntimeGenAI" />
+    <PackageReference Include="Roslynator.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>

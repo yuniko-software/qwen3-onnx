@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Meziantou.Analyzer" />
+    <PackageReference Include="Roslynator.Analyzers" />
+  </ItemGroup>
+
 </Project>

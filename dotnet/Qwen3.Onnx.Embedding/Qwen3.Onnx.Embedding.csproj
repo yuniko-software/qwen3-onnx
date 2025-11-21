@@ -8,8 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.23.2" />
-    <PackageReference Include="Yuniko.Software.Qwen3Tokenizer" Version="1.2.0" />
+    <PackageReference Include="Meziantou.Analyzer" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" />
+    <PackageReference Include="Roslynator.Analyzers" />
+    <PackageReference Include="Yuniko.Software.Qwen3Tokenizer" />
   </ItemGroup>
 
   <ItemGroup>

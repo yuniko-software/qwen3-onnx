@@ -18,7 +18,9 @@ public static class PythonReferenceDataProvider
         lock (_lock)
         {
             if (_cache.Count > 0)
+            {
                 return _cache;
+            }
 
             var referenceFile = Path.Combine(AppContext.BaseDirectory, "TestData", "reference_embeddings.json");
             var jsonContent = File.ReadAllText(referenceFile);
