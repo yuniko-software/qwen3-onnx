@@ -14,7 +14,7 @@ OPTIONS:
     -t, --type TYPE          Model type: llm or embedding (default: both)
     -p, --precision PREC     Precision: int4, int8, fp16, fp32 (default: int4)
     -d, --device DEVICE      Device: cpu, cuda (default: cpu)
-    -o, --output DIR         Output directory (default: models/)
+    -o, --output DIR         Output directory (default: ../models/)
     -h, --help               Show this help message
 
 EXAMPLES:
@@ -40,7 +40,7 @@ EOF
 MODEL_TYPE="both"
 PRECISION="int4"
 DEVICE="cpu"
-OUTPUT_DIR="models"
+OUTPUT_DIR="../models"
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
