@@ -36,6 +36,18 @@ done
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTNET_DIR="$SCRIPT_DIR/../dotnet"
 MODELS_DIR="$SCRIPT_DIR/../models"
+REFERENCE_EMBEDDINGS="$DOTNET_DIR/Qwen3.Onnx.Embedding.Tests/TestData/reference_embeddings.json"
+
+check_reference_embeddings() {
+    if [ ! -f "$REFERENCE_EMBEDDINGS" ]; then
+        echo "Warning: Reference embeddings not found at $REFERENCE_EMBEDDINGS"
+        echo ""
+        echo "Generating reference embeddings..."
+        echo ""
+        python "$SCRIPT_DIR/../generate_reference_embeddings.py"
+        echo ""
+    fi
+}
 
 check_models() {
     local llm_model="$MODELS_DIR/qwen3-llm"
@@ -77,6 +89,11 @@ run_tests() {
     echo "$project_name tests completed"
     echo ""
 }
+
+echo "=========================================="
+echo "Checking for reference embeddings"
+echo "=========================================="
+check_reference_embeddings
 
 echo "=========================================="
 echo "Checking for required models"

@@ -4,3 +4,6 @@ onnxruntime-genai
 olive-ai
 optimum[onnxruntime]
 accelerate
+sentence-transformers
+torch
+transformers
