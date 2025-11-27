@@ -4,6 +4,8 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 show_help() {
     cat << EOF
 Usage: ./export-model.sh [OPTIONS]
@@ -41,7 +43,7 @@ EOF
 MODEL_TYPE="both"
 PRECISION="int4"
 DEVICE="cpu"
-OUTPUT_DIR="../models"
+OUTPUT_DIR="$SCRIPT_DIR/../models"
 FORCE=false
 
 # Parse arguments
