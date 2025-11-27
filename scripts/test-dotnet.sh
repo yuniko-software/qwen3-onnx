@@ -50,7 +50,7 @@ check_reference_embeddings() {
 }
 
 check_models() {
-    local llm_model="$MODELS_DIR/qwen3-llm"
+    local llm_model="$MODELS_DIR/qwen3-llm/model"
     local embedding_model="$MODELS_DIR/qwen3-embedding/model"
     local missing_models=false
 

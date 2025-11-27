@@ -91,9 +91,9 @@ export_llm() {
     local model_name=$1
     local output_path=$2
 
-    if [ "$FORCE" = false ] && [ -d "$output_path" ]; then
+    if [ "$FORCE" = false ] && [ -d "$output_path/model" ]; then
         echo "=========================================="
-        echo "LLM model already exists at $output_path"
+        echo "LLM model already exists at $output_path/model"
         echo "Skipping export (use --force to re-export)"
         echo "=========================================="
         echo ""
