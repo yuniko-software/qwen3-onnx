@@ -34,8 +34,10 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      - name: Make test script executable
-        run: chmod +x scripts/test-dotnet.sh
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/test-dotnet.sh
+          chmod +x scripts/export-model.sh
 
       - name: Run tests
         run: scripts/test-dotnet.sh
