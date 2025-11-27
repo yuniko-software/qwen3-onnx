@@ -3,3 +3,4 @@ numpy
 onnxruntime-genai
 olive-ai
 optimum[onnxruntime]
+accelerate
