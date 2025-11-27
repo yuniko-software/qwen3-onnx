@@ -19,12 +19,12 @@ def last_token_pool(last_hidden_states: Tensor, attention_mask: Tensor) -> Tenso
 def find_repository_root():
     current = Path.cwd()
     for _ in range(10):
-        if (current / "models").exists():
+        if (current / ".git").exists() or (current / "generate_reference_embeddings.py").exists():
             return current
         if current.parent == current:
             break
         current = current.parent
-    raise FileNotFoundError("Could not locate repository root with 'models' directory")
+    raise FileNotFoundError("Could not locate repository root")
 
 
 def get_embedding(model, tokenizer, text):
