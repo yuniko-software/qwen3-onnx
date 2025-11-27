@@ -86,7 +86,7 @@ echo "=========================================="
 echo "Running dotnet format verification"
 echo "=========================================="
 echo ""
-dotnet format "$DOTNET_DIR" --verify-no-changes
+dotnet format "$DOTNET_DIR/Qwen3.Onnx.Samples.slnx" --verify-no-changes
 echo ""
 
 run_tests "Embedding" "$DOTNET_DIR/Qwen3.Onnx.Embedding.Tests/Qwen3.Onnx.Embedding.Tests.csproj"
