@@ -55,7 +55,7 @@ check_models() {
         echo ""
         echo "Models are missing. Running export-model.sh to generate them..."
         echo ""
-        ./export-model.sh
+        "$(dirname "$0")/export-model.sh"
         echo ""
     fi
 }
