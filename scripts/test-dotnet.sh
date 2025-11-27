@@ -33,8 +33,9 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-DOTNET_DIR="../dotnet"
-MODELS_DIR="../models"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DOTNET_DIR="$SCRIPT_DIR/../dotnet"
+MODELS_DIR="$SCRIPT_DIR/../models"
 
 check_models() {
     local llm_model="$MODELS_DIR/qwen3-llm"
