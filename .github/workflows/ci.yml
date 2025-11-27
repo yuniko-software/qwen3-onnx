@@ -39,8 +39,5 @@ jobs:
           chmod +x scripts/test-dotnet.sh
           chmod +x scripts/export-model.sh
 
-      - name: Generate reference embeddings
-        run: python generate_reference_embeddings.py
-
       - name: Run tests
         run: scripts/test-dotnet.sh
