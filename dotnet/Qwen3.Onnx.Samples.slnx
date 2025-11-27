@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
   <Project Path="Qwen3.Onnx.Embedding.Tests/Qwen3.Onnx.Embedding.Tests.csproj" />
   <Project Path="Qwen3.Onnx.Embedding/Qwen3.Onnx.Embedding.csproj" />
   <Project Path="Qwen3.Onnx.Llm.Tests/Qwen3.Onnx.Llm.Tests.csproj" />

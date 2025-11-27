@@ -114,6 +114,9 @@ dotnet_diagnostic.MA0009.severity = silent
 # MA0048: File name must match type name
 dotnet_diagnostic.MA0048.severity = silent
 
+# MA0016: Prefer using collection abstraction instead of implementation
+dotnet_diagnostic.MA0016.severity = suggestion
+
 [*.{cs,vb}]
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion

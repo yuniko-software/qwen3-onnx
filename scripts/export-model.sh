@@ -15,6 +15,7 @@ OPTIONS:
     -p, --precision PREC     Precision: int4, int8, fp16, fp32 (default: int4)
     -d, --device DEVICE      Device: cpu, cuda (default: cpu)
     -o, --output DIR         Output directory (default: ../models/)
+    -f, --force              Force re-export even if model already exists
     -h, --help               Show this help message
 
 EXAMPLES:
@@ -41,6 +42,7 @@ MODEL_TYPE="both"
 PRECISION="int4"
 DEVICE="cpu"
 OUTPUT_DIR="../models"
+FORCE=false
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -60,6 +62,10 @@ while [[ $# -gt 0 ]]; do
         -o|--output)
             OUTPUT_DIR="$2"
             shift 2
+            ;;
+        -f|--force)
+            FORCE=true
+            shift
             ;;
         -h|--help)
             show_help
@@ -84,6 +90,15 @@ fi
 export_llm() {
     local model_name=$1
     local output_path=$2
+
+    if [ "$FORCE" = false ] && [ -d "$output_path" ]; then
+        echo "=========================================="
+        echo "LLM model already exists at $output_path"
+        echo "Skipping export (use --force to re-export)"
+        echo "=========================================="
+        echo ""
+        return
+    fi
 
     echo "=========================================="
     echo "Exporting LLM model"
@@ -113,6 +128,15 @@ export_llm() {
 export_embedding() {
     local model_name=$1
     local output_path=$2
+
+    if [ "$FORCE" = false ] && [ -d "$output_path/model" ]; then
+        echo "=========================================="
+        echo "Embedding model already exists at $output_path/model"
+        echo "Skipping export (use --force to re-export)"
+        echo "=========================================="
+        echo ""
+        return
+    fi
 
     echo "=========================================="
     echo "Exporting Embedding model"
