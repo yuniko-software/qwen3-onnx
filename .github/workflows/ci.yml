@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,40 +15,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-          cache: 'pip'
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.11'
+        cache: 'pip'
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: '10.0.x'
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.0.x'
 
-      - name: Install Python dependencies
-        run: pip install -r requirements.txt
+    - name: Install Python dependencies
+      run: pip install -r requirements.txt
 
-      - name: Make scripts executable
-        run: |
-          chmod +x scripts/test-dotnet.sh
-          chmod +x scripts/export-model.sh
+    - name: Make scripts executable
+      run: |
+        chmod +x scripts/test-dotnet.sh
+        chmod +x scripts/export-model.sh
 
-      - name: Authenticate with HuggingFace
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          if [ -n "$HF_TOKEN" ]; then
-            pip install huggingface-hub
-            huggingface-cli login --token $HF_TOKEN
-          else
-            echo "Warning: HF_TOKEN not set. Model download may fail for gated models."
-          fi
+    - name: Authenticate with HuggingFace
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      run: |
+        if [ -n "$HF_TOKEN" ]; then
+          pip install huggingface-hub
+          hf auth login --token $HF_TOKEN
+        else
+          echo "Warning: HF_TOKEN not set. Model download may fail for gated models."
+        fi
 
-      - name: Run tests
-        run: scripts/test-dotnet.sh
+    - name: Run tests
+      run: scripts/test-dotnet.sh
