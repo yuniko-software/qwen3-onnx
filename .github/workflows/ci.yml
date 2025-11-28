@@ -20,6 +20,14 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Clean up disk space
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /usr/local/share/boost
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        df -h
+
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
