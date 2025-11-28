@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Model export script using Olive auto-optimization for LLM and Optimum for embeddings
-
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -39,14 +37,11 @@ DEFAULT MODELS:
 EOF
 }
 
-# Default values
 MODEL_TYPE="both"
 PRECISION="int4"
 DEVICE="cpu"
 OUTPUT_DIR="$SCRIPT_DIR/../models"
 FORCE=false
-
-# Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
         -t|--type)
@@ -81,14 +76,12 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Set execution provider based on device
 if [ "$DEVICE" = "cuda" ]; then
     PROVIDER="CUDAExecutionProvider"
 else
     PROVIDER="CPUExecutionProvider"
 fi
 
-# Export LLM using Olive with model builder
 export_llm() {
     local model_name=$1
     local output_path=$2
@@ -122,25 +115,14 @@ export_llm() {
         --log_level 1
 
     echo ""
-    echo "Checking exported files in $output_path:"
-    ls -la "$output_path" || echo "Output path does not exist"
-
-    # Check if model subdirectory exists, if not move files there
     if [ ! -d "$output_path/model" ]; then
-        echo "Model subdirectory not found, creating and moving files..."
         mkdir -p "$output_path/model"
-        # Move all files except the model directory itself
         find "$output_path" -maxdepth 1 -type f -exec mv {} "$output_path/model/" \;
     fi
-
-    echo "Contents of $output_path/model:"
-    ls -la "$output_path/model"
-    echo ""
-    echo "LLM model export completed"
+    echo "LLM model exported successfully to $output_path/model"
     echo ""
 }
 
-# Export embedding model using Optimum
 export_embedding() {
     local model_name=$1
     local output_path=$2
@@ -158,14 +140,12 @@ export_embedding() {
     echo "Exporting Embedding model"
     echo "  Model: $model_name"
     echo "  Output: $output_path/model"
-    echo "  Using: optimum-cli (encoder-only model)"
+    echo "  Using: optimum-cli"
     echo "=========================================="
     echo ""
 
-    # Create output directory if it doesn't exist
     mkdir -p "$output_path/model"
 
-    # Export using optimum-cli for encoder-only models
     optimum-cli export onnx \
         --model "$model_name" \
         --task feature-extraction \
@@ -176,7 +156,6 @@ export_embedding() {
     echo ""
 }
 
-# Export models based on type
 if [ "$MODEL_TYPE" = "llm" ] || [ "$MODEL_TYPE" = "both" ]; then
     LLM_MODEL="Qwen/Qwen3-0.6B"
     LLM_OUTPUT="$OUTPUT_DIR/qwen3-llm"

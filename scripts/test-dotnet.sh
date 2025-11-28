@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# .NET test runner script
-
 set -e
 
 show_help() {
@@ -99,16 +97,6 @@ echo "=========================================="
 echo "Checking for required models"
 echo "=========================================="
 check_models
-
-echo "=========================================="
-echo "Debug: Models directory structure"
-echo "=========================================="
-if [ -d "$MODELS_DIR" ]; then
-    ls -laR "$MODELS_DIR"
-else
-    echo "Models directory does not exist at $MODELS_DIR"
-fi
-echo ""
 
 echo "=========================================="
 echo "Running dotnet format verification"
