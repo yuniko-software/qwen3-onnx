@@ -54,7 +54,7 @@ check_models() {
     local embedding_model="$MODELS_DIR/qwen3-embedding/model"
     local missing_models=false
 
-    if [ ! -d "$llm_model" ]; then
+    if [ ! -f "$llm_model/genai_config.json" ]; then
         echo "Warning: LLM model not found at $llm_model"
         missing_models=true
     fi

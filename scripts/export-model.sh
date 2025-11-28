@@ -124,12 +124,17 @@ export_llm() {
     echo ""
     echo "Checking exported files in $output_path:"
     ls -la "$output_path" || echo "Output path does not exist"
-    if [ -d "$output_path/model" ]; then
-        echo "Contents of $output_path/model:"
-        ls -la "$output_path/model"
-    else
-        echo "Warning: $output_path/model directory not found"
+
+    # Check if model subdirectory exists, if not move files there
+    if [ ! -d "$output_path/model" ]; then
+        echo "Model subdirectory not found, creating and moving files..."
+        mkdir -p "$output_path/model"
+        # Move all files except the model directory itself
+        find "$output_path" -maxdepth 1 -type f -exec mv {} "$output_path/model/" \;
     fi
+
+    echo "Contents of $output_path/model:"
+    ls -la "$output_path/model"
     echo ""
     echo "LLM model export completed"
     echo ""
