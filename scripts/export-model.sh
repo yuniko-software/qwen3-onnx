@@ -122,7 +122,16 @@ export_llm() {
         --log_level 1
 
     echo ""
-    echo "LLM model exported successfully to $output_path"
+    echo "Checking exported files in $output_path:"
+    ls -la "$output_path" || echo "Output path does not exist"
+    if [ -d "$output_path/model" ]; then
+        echo "Contents of $output_path/model:"
+        ls -la "$output_path/model"
+    else
+        echo "Warning: $output_path/model directory not found"
+    fi
+    echo ""
+    echo "LLM model export completed"
     echo ""
 }
 
