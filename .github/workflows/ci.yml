@@ -39,5 +39,11 @@ jobs:
           chmod +x scripts/test-dotnet.sh
           chmod +x scripts/export-model.sh
 
+      - name: Authenticate with HuggingFace
+        if: ${{ secrets.HF_TOKEN != '' }}
+        run: |
+          pip install huggingface-hub
+          huggingface-cli login --token ${{ secrets.HF_TOKEN }}
+
       - name: Run tests
         run: scripts/test-dotnet.sh
