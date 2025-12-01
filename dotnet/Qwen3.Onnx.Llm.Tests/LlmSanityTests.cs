@@ -24,8 +24,8 @@ public class LlmSanityTests : IDisposable
 
         using var inputTokens = _tokenizer.Encode(formattedPrompt);
         using var generatorParams = new GeneratorParams(_model);
-        generatorParams.SetSearchOption("max_length", 100);
-        generatorParams.SetSearchOption("temperature", 0.6);
+        generatorParams.SetSearchOption("temperature", 0.0);
+        generatorParams.SetSearchOption("top_k", 1);
 
         using var generator = new Generator(_model, generatorParams);
         generator.AppendTokens(inputTokens[0]);
