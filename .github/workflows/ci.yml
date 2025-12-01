@@ -51,12 +51,13 @@ jobs:
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
-        if [ -n "$HF_TOKEN" ]; then
-          pip install huggingface-hub
-          hf auth login --token $HF_TOKEN
-        else
-          echo "Warning: HF_TOKEN not set. Model download may fail for gated models."
+        if [ -z "$HF_TOKEN" ]; then
+          echo "Error: HF_TOKEN secret is not configured."
+          echo "Please configure the HF_TOKEN secret in repository settings."
+          exit 1
         fi
+        pip install huggingface-hub
+        hf auth login --token $HF_TOKEN
 
     - name: Run tests
       run: scripts/test-dotnet.sh
