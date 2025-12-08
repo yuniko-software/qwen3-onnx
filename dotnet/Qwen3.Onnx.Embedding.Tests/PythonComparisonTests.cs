@@ -5,37 +5,78 @@ using Yuniko.Software.Qwen3Tokenizer;
 
 namespace Qwen3.Onnx.Embedding.Tests;
 
-public class PythonComparisonTests : IDisposable
+public sealed class PythonComparisonTests : IDisposable
 {
     private readonly Qwen3Tokenizer _tokenizer;
-    private readonly InferenceSession _session;
+    private readonly InferenceSession _cpuSession;
+    private readonly InferenceSession? _cudaSession;
+    private readonly bool _cudaAvailable;
 
     public PythonComparisonTests()
     {
         _tokenizer = Qwen3Tokenizer.FromHuggingFace("Qwen/Qwen3-Embedding-0.6B", isForEmbeddingModel: true);
 
         var modelPath = RepositoryPaths.GetEmbeddingModelPath();
-        var sessionOptions = new SessionOptions();
-        _session = new InferenceSession(modelPath, sessionOptions);
+
+        var cpuSessionOptions = new SessionOptions
+        {
+            EnableMemoryPattern = true,
+            EnableCpuMemArena = true,
+            LogSeverityLevel = OrtLoggingLevel.ORT_LOGGING_LEVEL_WARNING,
+        };
+        _cpuSession = new InferenceSession(modelPath, cpuSessionOptions);
+
+        try
+        {
+            var cudaSessionOptions = new SessionOptions
+            {
+                EnableMemoryPattern = true,
+                EnableCpuMemArena = false,
+                LogSeverityLevel = OrtLoggingLevel.ORT_LOGGING_LEVEL_WARNING,
+            };
+            cudaSessionOptions.AppendExecutionProvider_CUDA(0);
+            _cudaSession = new InferenceSession(modelPath, cudaSessionOptions);
+            _cudaAvailable = true;
+        }
+        catch (OnnxRuntimeException)
+        {
+            _cudaSession = null;
+            _cudaAvailable = false;
+        }
     }
 
     [Theory]
     [ClassData(typeof(TestTextData))]
-    public void Embedding_MatchesPythonReference(string text)
+    public void CpuEmbedding_MatchesPythonReference(string text)
+    {
+        ValidateEmbeddingAgainstReference(_cpuSession, text, "CPU");
+    }
+
+    [SkippableTheory]
+    [ClassData(typeof(TestTextData))]
+    public void CudaEmbedding_MatchesPythonReference(string text)
+    {
+        Skip.If(!_cudaAvailable, "CUDA is not available on this system");
+
+        Assert.NotNull(_cudaSession);
+        ValidateEmbeddingAgainstReference(_cudaSession, text, "CUDA");
+    }
+
+    private void ValidateEmbeddingAgainstReference(InferenceSession session, string text, string providerName)
     {
         var reference = PythonReferenceDataProvider.GetReferenceEmbeddings()[text];
-        var embedding = GetEmbedding(text);
+        var embedding = GetEmbedding(session, text);
 
         Assert.Equal(reference.Dimension, embedding.Length);
 
         var similarity = CalculateCosineSimilarity(embedding, [.. reference.Embedding]);
         Assert.True(
             similarity >= 0.9999,
-            $"Cosine similarity {similarity:F6} is below threshold 0.9999 for text: '{text}'"
+            $"{providerName}: Cosine similarity {similarity:F10} is below threshold 0.9999 for text: '{text}'"
         );
     }
 
-    private float[] GetEmbedding(string text)
+    private float[] GetEmbedding(InferenceSession session, string text)
     {
         var onnxInputs = _tokenizer.PrepareForOnnx(text);
 
@@ -45,10 +86,10 @@ public class PythonComparisonTests : IDisposable
         var inputs = new List<NamedOnnxValue>
         {
             NamedOnnxValue.CreateFromTensor("input_ids", inputIdsTensor),
-            NamedOnnxValue.CreateFromTensor("attention_mask", attentionMaskTensor)
+            NamedOnnxValue.CreateFromTensor("attention_mask", attentionMaskTensor),
         };
 
-        using var results = _session.Run(inputs);
+        using var results = session.Run(inputs);
         var allHiddenStates = results[0].AsEnumerable<float>().ToArray();
 
         var embedding = LastTokenPool(allHiddenStates, onnxInputs.AttentionMask, onnxInputs.SequenceLength);
@@ -119,7 +160,8 @@ public class PythonComparisonTests : IDisposable
 
     public void Dispose()
     {
-        _session?.Dispose();
+        _cudaSession?.Dispose();
+        _cpuSession?.Dispose();
 
         GC.SuppressFinalize(this);
     }

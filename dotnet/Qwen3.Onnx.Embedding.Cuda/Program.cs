@@ -5,13 +5,22 @@ using Yuniko.Software.Qwen3Tokenizer;
 
 var modelPath = RepositoryPaths.GetEmbeddingModelPath();
 const string tokenizerModel = "Qwen/Qwen3-Embedding-0.6B";
+const int cudaDeviceId = 0;
 
 Console.WriteLine("Loading tokenizer...");
 var tokenizer = await Qwen3Tokenizer.FromHuggingFaceAsync(tokenizerModel, isForEmbeddingModel: true);
 Console.WriteLine("Tokenizer loaded");
 
-Console.WriteLine("Loading embedding model...");
-using var sessionOptions = new SessionOptions();
+Console.WriteLine("Loading embedding model with CUDA...");
+using var sessionOptions = new SessionOptions
+{
+    EnableMemoryPattern = true,
+    EnableCpuMemArena = false,
+    LogSeverityLevel = OrtLoggingLevel.ORT_LOGGING_LEVEL_WARNING,
+};
+
+sessionOptions.AppendExecutionProvider_CUDA(cudaDeviceId);
+
 using var session = new InferenceSession(modelPath, sessionOptions);
 Console.WriteLine("Model loaded\n");
 
