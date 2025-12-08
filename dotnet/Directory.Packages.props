@@ -8,11 +8,14 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="Meziantou.Analyzer" Version="2.0.257" />
     <PackageVersion Include="Microsoft.ML.OnnxRuntime" Version="1.23.2" />
+    <PackageVersion Include="Microsoft.ML.OnnxRuntime.Gpu" Version="1.23.2" />
     <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI" Version="0.11.2" />
+    <PackageVersion Include="Microsoft.ML.OnnxRuntimeGenAI.Cuda" Version="0.11.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.14.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="xunit.SkippableFact" Version="1.5.23" />
     <PackageVersion Include="Yuniko.Software.Qwen3Tokenizer" Version="1.2.0" />
   </ItemGroup>
 
